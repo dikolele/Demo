@@ -14,8 +14,8 @@ import com.weihui.po.Person;
 @Service
 public class PersonServiceImpl implements PersonService {
 
-	@Autowired
-	private PersonDAO personDao;
+	@Autowired  //自动装配           @Qualifier   精确装配
+	private PersonDAO personDao;//构造器
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(Person person) {

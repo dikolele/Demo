@@ -9,36 +9,49 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd  
     http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-
-	<mvc:view-controller path="/index" view-name="index" />
-
-	<context:component-scan base-package="com.weihui" use-default-filters="false"> 
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
-		</context:component-scan> 
+	<context:component-scan base-package="com.weihui"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 	<!-- mvc注解驱动 -->
 	<mvc:annotation-driven />
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 
+	<mvc:view-controller path="/index" view-name="index" />
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" 
+		/> -->
 
 	<!-- spring mvc请求映射 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="synchronizeOnSession" value="true"></property>
-	</bean>
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+		<property name="synchronizeOnSession" value="true"></property> </bean> -->
 
-
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理 -->
+	<mvc:resources mapping="/js/*" location="/js/" />
 
 	<!-- <context:annotation-config /> <mvc:default-servlet-handler/> -->
-
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-
 		<!-- //Controler 返回的ModeAndView自动到此目录下找对应jsp为后缀的文件 -->
 		<property name="prefix" value="/WEB-INF/jsp/" />  <!-- 前缀 -->
 		<property name="suffix" value=".jsp" /><!--后缀、、、可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
 		<!-- 使用Jsp作为视图解释层 -->
 	</bean>
-
-
+	
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>    
+				<value>text/html; charset=UTF-8</value>
+            	<value>application/json;charset=UTF-8</value>    
+       		</list>  
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter"/>
+			</list>
+		</property>
+	</bean> 
+	
 </beans> 

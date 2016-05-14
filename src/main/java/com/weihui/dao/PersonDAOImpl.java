@@ -53,7 +53,7 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 	
 	public Person queryByOne(Person person) {
-		// TODO Auto-generated method stub
+		
 		Person person1=entityManager.find(Person.class, person.getId());
 		return person1;
 	}
@@ -61,7 +61,7 @@ public class PersonDAOImpl implements PersonDAO {
 	
 	
 	public Person queryById(int id) {
-		// TODO Auto-generated method stub
+		
 		Person person=entityManager.find(Person.class,id);
 		return person;
 	}
